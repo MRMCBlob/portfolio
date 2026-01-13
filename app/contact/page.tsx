@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Mail, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, MapPin, Send, Github } from "lucide-react";
 import Nav from "@/components/nav";
+
 
 export default function ContactPage() {
   const [formState, setFormState] = useState({
@@ -12,10 +13,10 @@ export default function ContactPage() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formState);
+  const handleSubmit = () => {
+    const subject = encodeURIComponent(`Message from ${formState.name}`);
+    const body = encodeURIComponent(`From: ${formState.name}\nEmail: ${formState.email}\n\n${formState.message}`);
+    location.href = `mailto:hello@mrmcblob.com?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -38,8 +39,7 @@ export default function ContactPage() {
 
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <motion.form
-              onSubmit={handleSubmit}
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
@@ -88,7 +88,8 @@ export default function ContactPage() {
               </div>
 
               <motion.button
-                type="submit"
+                type="button"
+                onClick={handleSubmit}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full py-3 px-6 rounded-lg bg-primary text-primary-foreground font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
@@ -96,7 +97,7 @@ export default function ContactPage() {
                 <Send size={18} />
                 Send Message
               </motion.button>
-            </motion.form>
+            </motion.div>
 
             {/* Contact Info */}
             <motion.div
@@ -110,7 +111,7 @@ export default function ContactPage() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-muted-foreground">
                     <Mail size={20} className="text-primary" />
-                    <span>hello@anto.dev</span>
+                    <span>hello@mrmcblob.com</span>
                   </div>
                   <div className="flex items-center gap-3 text-muted-foreground">
                     <MapPin size={20} className="text-primary" />
@@ -122,31 +123,27 @@ export default function ContactPage() {
               <div>
                 <h2 className="text-xl font-semibold text-foreground mb-4">Social</h2>
                 <div className="flex gap-4">
-                  {[
-                    { icon: Github, href: "#", label: "GitHub" },
-                    { icon: Linkedin, href: "#", label: "LinkedIn" },
-                    { icon: Twitter, href: "#", label: "Twitter" },
-                  ].map(({ icon: Icon, href, label }) => (
-                    <motion.a
-                      key={label}
-                      href={href}
-                      whileHover={{ scale: 1.1, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-muted/80 transition-colors"
-                      aria-label={label}
-                    >
-                      <Icon size={20} />
-                    </motion.a>
-                  ))}
+                  <motion.a
+                    href="https://github.com/Mrmcblob"
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-muted/80 transition-colors"
+                    aria-label="GitHub"
+                  >
+                    <Github size={20} />
+                  </motion.a>
+                  <motion.a
+                    href="https://discord.com/users/970700037216665640"
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-muted/80 transition-colors"
+                    aria-label="Discord"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+                    </svg>
+                  </motion.a>
                 </div>
-              </div>
-
-              <div className="p-6 rounded-xl bg-muted/50 border border-border">
-                <h3 className="font-medium text-foreground mb-2">Response Time</h3>
-                <p className="text-sm text-muted-foreground">
-                  I typically respond within 24-48 hours. For urgent inquiries,
-                  feel free to reach out on social media.
-                </p>
               </div>
             </motion.div>
           </div>

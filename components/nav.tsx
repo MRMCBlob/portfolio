@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { Home, FolderKanban, Mail, Plus } from "lucide-react";
@@ -34,9 +34,26 @@ export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isCenterHovered, setIsCenterHovered] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const activeId = NAV_ITEMS.find((item) => item.href === pathname)?.id ?? "home";
 
@@ -48,7 +65,7 @@ export default function Nav() {
   }, [router]);
 
   return (
-    <div className="fixed top-8 left-8 z-50">
+    <div ref={navRef} className="fixed top-8 left-8 z-50">
       {/* Ambient glow behind the nav */}
       <motion.div
         className="absolute rounded-full blur-3xl pointer-events-none"
