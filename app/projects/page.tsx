@@ -5,9 +5,9 @@ const PROJECTS: Project[] = [
   {
     id: "1",
     title: "My Portfolio",
-    description: "This Portfolio page lmao"
+    description: "This Portfolio page lmao",
     tags: ["Next.js", "React", "Tailwind CSS"],
-    github: { username: "mrmcblob", repo: "portfolio" },
+    github: { username: "MRMCBlob", repo: "portfolio" },
     liveUrl: "https://mrmcblob.com",
   },
 ];
