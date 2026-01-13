@@ -1,6 +1,8 @@
 "use client";
 
 import { ThemeProvider } from "@/components/theme-provider"
+import { PostHogProvider } from "@/components/posthog-provider"
+import { Analytics } from "@vercel/analytics/react"
 import { GeistSans } from 'geist/font/sans';
 import "./globals.css";
 
@@ -12,14 +14,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body>
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-        </ThemeProvider>
+        <PostHogProvider>
+          <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+          </ThemeProvider>
+        </PostHogProvider>
+        <Analytics />
       </body>
     </html>
   );
